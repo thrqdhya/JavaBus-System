@@ -1,4 +1,8 @@
+package service;
+
 import java.util.List;
+import model.Ticket;
+import repository.TicketRepository;
 
 public class TicketService {
 
@@ -13,7 +17,7 @@ public class TicketService {
     public void createTicket(Ticket ticket) {
         if (isSeatAvailable(ticket.getKoltukNo())) {
             ticketRepository.add(ticket);
-            System.out.println("Bilet başarıyla oluşturuldu!");
+            System.out.println("Bilet basarıyla olusturuldu!");
         } else {
             System.out.println("Bu koltuk dolu!");
         }
@@ -37,7 +41,7 @@ public class TicketService {
         Ticket ticket = ticketRepository.findById(id);
 
         if (ticket != null) {
-            ticketRepository.remove(ticket);
+            ticketRepository.remove(id);
             System.out.println("Bilet iptal edildi.");
         } else {
             System.out.println("Bilet bulunamadı!");

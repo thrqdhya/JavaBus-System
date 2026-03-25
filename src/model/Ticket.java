@@ -1,3 +1,5 @@
+package model;
+
 public class Ticket {
     private int id;
     private String yolcuAdi;

@@ -1,52 +1,64 @@
 package service;
 
-import model.Passenger;
-import repository.PassengerRepository;
+import model.Bus;
+import repository.BusRepository;
 
 import java.util.List;
 
-public class PassengerService {
+public class BusService {
 
-    private PassengerRepository passengerRepository;
+    private BusRepository busRepository;
 
     // Constructor
-    public PassengerService(PassengerRepository passengerRepository) {
-        this.passengerRepository = passengerRepository;
+    public BusService(BusRepository busRepository) {
+        this.busRepository = busRepository;
     }
 
-    // 🎯 1. Yolcu ekleme (Tambah Passenger)
-    public void addPassenger(Passenger passenger) {
-        passengerRepository.add(passenger);
-        System.out.println("Yolcu başarıyla eklendi!");
+    // 🎯 1. Otobüs ekleme (Tambah Bus)
+    public void addBus(Bus bus) {
+        busRepository.add(bus);
+        System.out.println("Otobüs basarıyla eklendi!");
     }
 
-    // 🎯 2. Tüm yolcuları listele
-    public void getAllPassengers() {
-        List<Passenger> passengers = passengerRepository.getAll();
+    // 🎯 2. Tüm otobüsleri listele
+    public void getAllBuses() {
+        List<Bus> buses = busRepository.getAll();
 
-        if (passengers.isEmpty()) {
-            System.out.println("Hiç yolcu bulunamadı.");
+        if (buses.isEmpty()) {
+            System.out.println("Hiç otobüs bulunamadı.");
         } else {
-            for (Passenger passenger : passengers) {
-                System.out.println(passenger);
+            for (Bus bus : buses) {
+                System.out.println(bus);
             }
         }
     }
 
-    // 🎯 3. Yolcu silme (Hapus Passenger)
-    public void removePassenger(int id) {
-        Passenger passenger = passengerRepository.findById(id);
+    // 🎯 3. Otobüs silme (Hapus Bus)
+    public void removeBus(int id) {
+        Bus bus = busRepository.findById(id);
 
-        if (passenger != null) {
-            passengerRepository.remove(passenger);
-            System.out.println("Yolcu silindi.");
+        if (bus != null) {
+            busRepository.remove(bus);
+            System.out.println("Otobüs silindi.");
         } else {
-            System.out.println("Yolcu bulunamadı!");
+            System.out.println("Otobüs bulunamadı!");
         }
     }
 
-    // 🎯 4. ID ile yolcu bul
-    public Passenger findPassengerById(int id) {
-        return passengerRepository.findById(id);
+    // 🎯 4. ID ile otobüs bul
+    public Bus findBusById(int id) {
+        return busRepository.findById(id);
+    }
+
+    // 🎯 5. (BONUS) Kapasitas kursi
+    public int getBusCapacity(int id) {
+        Bus bus = busRepository.findById(id);
+
+        if (bus != null) {
+            return bus.getKoltukSayisi();
+        } else {
+            System.out.println("Otobüs bulunamadı!");
+            return -1;
+        }
     }
 }

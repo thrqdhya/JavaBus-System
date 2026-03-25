@@ -17,7 +17,7 @@ public class PassengerService {
     // 🎯 1. Yolcu ekleme (Tambah Passenger)
     public void addPassenger(Passenger passenger) {
         passengerRepository.add(passenger);
-        System.out.println("Yolcu başarıyla eklendi!");
+        System.out.println("Yolcu basarıyla eklendi!");
     }
 
     // 🎯 2. Tüm yolcuları listele
@@ -38,7 +38,7 @@ public class PassengerService {
         Passenger passenger = passengerRepository.findById(id);
 
         if (passenger != null) {
-            passengerRepository.remove(passenger);
+            passengerRepository.remove(id);
             System.out.println("Yolcu silindi.");
         } else {
             System.out.println("Yolcu bulunamadı!");

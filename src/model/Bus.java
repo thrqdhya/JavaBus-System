@@ -1,3 +1,5 @@
+package model;
+
 public class Bus {
     private int id;
     private String marka;
