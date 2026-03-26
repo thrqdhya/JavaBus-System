@@ -2,7 +2,6 @@ package service;
 
 import model.Bus;
 import repository.BusRepository;
-
 import java.util.List;
 
 public class BusService {
@@ -14,46 +13,61 @@ public class BusService {
         this.busRepository = busRepository;
     }
 
-    // 🎯 1. Otobüs ekleme (Tambah Bus)
+    // 🎯 1. CREATE: Tambah Bus
     public void addBus(Bus bus) {
         busRepository.add(bus);
-        System.out.println("Otobüs basarıyla eklendi!");
+        System.out.println("Otobüs basarıyla eklendi: " + bus);
     }
 
-    // 🎯 2. Tüm otobüsleri listele
-    public void getAllBuses() {
-        List<Bus> buses = busRepository.getAll();
+    // 🎯 2. READ: Get semua bus
+    public List<Bus> getAllBuses() {
+        return busRepository.getAll();
+    }
 
+    // Optional: print semua bus ke console
+    public void printAllBuses() {
+        List<Bus> buses = busRepository.getAll();
         if (buses.isEmpty()) {
             System.out.println("Hiç otobüs bulunamadı.");
         } else {
+            System.out.println("Tüm otobüsler:");
             for (Bus bus : buses) {
                 System.out.println(bus);
             }
         }
     }
 
-    // 🎯 3. Otobüs silme (Hapus Bus)
-    public void removeBus(int id) {
+    // 🎯 3. UPDATE: Update route & kapasitas bus
+    public void updateBus(int id, String newRoute, int newCapacity) {
         Bus bus = busRepository.findById(id);
-
         if (bus != null) {
-            busRepository.remove(bus);
-            System.out.println("Otobüs silindi.");
+            bus.setRoute(newRoute);
+            bus.setKoltukSayisi(newCapacity);
+            System.out.println("Otobüs güncellendi: " + bus);
         } else {
             System.out.println("Otobüs bulunamadı!");
         }
     }
 
-    // 🎯 4. ID ile otobüs bul
+    // 🎯 4. DELETE: Hapus bus
+    public void removeBus(int id) {
+        Bus bus = busRepository.findById(id);
+        if (bus != null) {
+            busRepository.remove(id); // sesuai repository temanmu
+            System.out.println("Otobüs silindi: " + bus);
+        } else {
+            System.out.println("Otobüs bulunamadı!");
+        }
+    }
+
+    // 🎯 5. Find by ID
     public Bus findBusById(int id) {
         return busRepository.findById(id);
     }
 
-    // 🎯 5. (BONUS) Kapasitas kursi
+    // 🎯 6. Bonus: Get kapasitas bus
     public int getBusCapacity(int id) {
         Bus bus = busRepository.findById(id);
-
         if (bus != null) {
             return bus.getKoltukSayisi();
         } else {
