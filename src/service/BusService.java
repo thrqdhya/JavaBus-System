@@ -41,7 +41,7 @@ public class BusService {
     public void updateBus(int id, String newRoute, int newCapacity) {
         Bus bus = busRepository.findById(id);
         if (bus != null) {
-            bus.setRoute(newRoute);
+            bus.setMarka(newRoute);
             bus.setKoltukSayisi(newCapacity);
             System.out.println("Otobüs güncellendi: " + bus);
         } else {

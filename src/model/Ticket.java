@@ -1,34 +1,49 @@
 package model;
 
 public class Ticket {
+
     private int id;
-    private String yolcuAdi;
-    private int koltukNo;
-    private String tarih;
+    private int busId;
+    private int passengerId;
+    private String seat;
 
     // Constructor
-    public Ticket(int id, String yolcuAdi, int koltukNo, String tarih) {
+    public Ticket(int id, int busId, int passengerId, String seat) {
         this.id = id;
-        this.yolcuAdi = yolcuAdi;
-        this.koltukNo = koltukNo;
-        this.tarih = tarih;
+        this.busId = busId;
+        this.passengerId = passengerId;
+        this.seat = seat;
     }
 
-    // Getter dan Setter
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Getter
+    public int getId() {
+        return id;
+    }
 
-    public String getYolcuAdi() { return yolcuAdi; }
-    public void setYolcuAdi(String yolcuAdi) { this.yolcuAdi = yolcuAdi; }
+    public int getBusId() {
+        return busId;
+    }
 
-    public int getKoltukNo() { return koltukNo; }
-    public void setKoltukNo(int koltukNo) { this.koltukNo = koltukNo; }
+    public int getPassengerId() {
+        return passengerId;
+    }
 
-    public String getTarih() { return tarih; }
-    public void setTarih(String tarih) { this.tarih = tarih; }
+    public String getSeat() {
+        return seat;
+    }
+
+    // Setter
+    public void setSeat(String seat) {
+        this.seat = seat;
+    }
 
     @Override
     public String toString() {
-        return "Ticket{" + "id=" + id + ", yolcu='" + yolcuAdi + '\'' + ", koltuk=" + koltukNo + ", tanggal='" + tarih + '\'' + '}';
+        return "Ticket{" +
+                "id=" + id +
+                ", busId=" + busId +
+                ", passengerId=" + passengerId +
+                ", seat='" + seat + '\'' +
+                '}';
     }
 }
