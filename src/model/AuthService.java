@@ -25,16 +25,14 @@ public class AuthService {
     }
 
     // C. LOGIN
-    public String login(String username, String password) {
+    public boolean login(String username, String password) {
         for (User u : userDatabase) {
-            if (u.getUsername().equals(username)) {
-                if (!u.isVerified()) return "Gagal: Akun belum diverifikasi!";
-                if (u.getPassword().equals(password)) {
-                    return "Login Berhasil! Selamat datang " + username;
-                }
+            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                return true;
+
             }
         }
-        return "Username atau Password salah!";
+        return false;
     }
 
     // D. VERIFY OTP

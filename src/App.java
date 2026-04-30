@@ -21,6 +21,27 @@ public class App {
         PassengerService passengerService = new PassengerService(passengerRepo);
         TicketService ticketService = new TicketService(ticketRepo, busRepo, passengerRepo);
 
+        // 🔐 AUTH SERVICE
+        AuthService authService = new AuthService();
+
+        // Dummy user (biar bisa login)
+        authService.register("admin", "admin@mail.com", "123");
+
+        System.out.println("=== LOGIN ===");
+        System.out.print("Username: ");
+        String username = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        boolean loginSuccess = authService.login(username, password);
+
+        if (!loginSuccess) {
+            System.out.println("Login failed!");
+            return;
+        }
+
+        System.out.println("Login successful!");
+
         // 🔥 TEST DATA
         busService.addBus(new Bus(1, "Mercedes", 40));
         busService.addBus(new Bus(2, "Volvo", 30));
@@ -166,6 +187,11 @@ public class App {
                 case 1 -> {
                     System.out.print("Ticket ID: "); int ticketId = Integer.parseInt(scanner.nextLine());
                     System.out.print("Bus ID: "); int busId = Integer.parseInt(scanner.nextLine());
+
+                    // 🔥 Tambahan UX (biar gak tebak ID)
+                    System.out.println("\nAvailable Buses:");
+                    ticketService.printAllTickets(); // optional, kalau mau ubah nanti
+
                     System.out.print("Passenger ID: "); int passengerId = Integer.parseInt(scanner.nextLine());
                     System.out.print("Seat: "); String seat = scanner.nextLine();
                     ticketService.buyTicket(ticketId, busId, passengerId, seat);
