@@ -17,16 +17,9 @@ public class DashboardPage {
 
     public VBox getView() {
 
-        // ===== BACKGROUND IMAGE =====
-        Image bgImage = new Image(getClass().getResource("/bg.jpg").toExternalForm());
-        ImageView bg = new ImageView(bgImage);
-        bg.setFitWidth(800);
-        bg.setFitHeight(600);
-        bg.setPreserveRatio(false);
-
-        // ===== NAVBAR (TRANSPARENT) =====
+        // ===== NAVBAR =====
         Label logo = new Label("JavaBus");
-        logo.setStyle("-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;");
+        logo.setStyle("-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;");
 
         Button logoutBtn = new Button("Logout");
         logoutBtn.setStyle(
@@ -40,14 +33,14 @@ public class DashboardPage {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        HBox navbar = new HBox(10, logo, spacer, logoutBtn);
-        navbar.setPadding(new Insets(15, 25, 15, 25));
-        navbar.setStyle("-fx-background-color: transparent;");
+        HBox navbar = new HBox(logo, spacer, logoutBtn);
+        navbar.setPadding(new Insets(20));
+        navbar.setAlignment(Pos.CENTER_LEFT);
 
         // ===== TITLE =====
         Label title = new Label("Find Your Bus Journey");
         title.setStyle(
-                "-fx-font-size: 34px;" +
+                "-fx-font-size: 36px;" +
                         "-fx-text-fill: white;" +
                         "-fx-font-weight: bold;"
         );
@@ -62,12 +55,12 @@ public class DashboardPage {
         DatePicker datePicker = new DatePicker();
         Spinner<Integer> passenger = new Spinner<>(1, 10, 1);
 
-        styleGlassInput(fromField);
-        styleGlassInput(toField);
-        styleGlassInput(datePicker);
-        styleGlassInput(passenger);
+        styleInput(fromField);
+        styleInput(toField);
+        styleInput(datePicker);
+        styleInput(passenger);
 
-        // ===== SEARCH BUTTON =====
+        // ===== BUTTON =====
         Button searchBtn = new Button("Search");
         searchBtn.setStyle(
                 "-fx-background-color: #ff7a00;" +
@@ -76,7 +69,7 @@ public class DashboardPage {
                         "-fx-padding: 10 20;"
         );
 
-        // ===== SEARCH BOX (GLASS EFFECT) =====
+        // ===== SEARCH BOX =====
         HBox searchBox = new HBox(15,
                 fromField,
                 toField,
@@ -88,33 +81,53 @@ public class DashboardPage {
         searchBox.setAlignment(Pos.CENTER);
         searchBox.setPadding(new Insets(20));
         searchBox.setMaxWidth(700);
-
         searchBox.setStyle(
-                "-fx-background-color: rgba(255,255,255,0.15);" +
-                        "-fx-background-radius: 25;" +
-                        "-fx-border-color: rgba(255,255,255,0.3);" +
-                        "-fx-border-radius: 25;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 10);"
+                "-fx-background-color: rgba(255,255,255,0.2);" +
+                        "-fx-background-radius: 25;"
         );
 
-        VBox content = new VBox(30, navbar, title, searchBox);
-        content.setAlignment(Pos.TOP_CENTER);
-        content.setPadding(new Insets(40));
+        // ===== BACKGROUND =====
+        Image bgImage = new Image("file:C:/Users/mutia/OneDrive/Downloads/bg.jpg");
 
-        StackPane root = new StackPane(bg, content);
+        ImageView bg = new ImageView(bgImage);
+        bg.setPreserveRatio(true);
+        bg.setFitWidth(1200); // biar gak zoom aneh
+        bg.setSmooth(true);
+
+        // ===== OVERLAY =====
+        Region overlay = new Region();
+        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+
+        // ===== CENTER CONTENT =====
+        VBox centerBox = new VBox(25, title, searchBox);
+        centerBox.setAlignment(Pos.CENTER);
+
+        VBox content = new VBox();
+        content.getChildren().addAll(navbar);
+
+        Region spacerTop = new Region();
+        VBox.setVgrow(spacerTop, Priority.ALWAYS);
+
+        Region spacerBottom = new Region();
+        VBox.setVgrow(spacerBottom, Priority.ALWAYS);
+
+        content.getChildren().addAll(spacerTop, centerBox, spacerBottom);
+
+        // ===== ROOT =====
+        StackPane root = new StackPane();
+        root.getChildren().addAll(bg, overlay, content);
 
         return new VBox(root);
     }
 
-    private void styleGlassInput(Control field) {
+    private void styleInput(Control field) {
         field.setStyle(
                 "-fx-background-color: rgba(255,255,255,0.3);" +
-                        "-fx-text-fill: black;" +
                         "-fx-background-radius: 12;" +
                         "-fx-border-radius: 12;" +
                         "-fx-border-color: rgba(255,255,255,0.4);" +
                         "-fx-padding: 10;"
         );
-        field.setPrefWidth(130);
+        field.setPrefWidth(140);
     }
 }
