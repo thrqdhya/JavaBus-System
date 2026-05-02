@@ -13,6 +13,9 @@ public class RegisterPage {
 
     private Main main;
 
+    final String[] generatedCode = {""};
+    final long[] expireTime = {0};
+
     // Simulasi database
     public static Map<String, String> users = new HashMap<>();
 
@@ -112,9 +115,35 @@ public class RegisterPage {
         final String[] generatedCode = {""};
 
         sendCodeBtn.setOnAction(e -> {
-            generatedCode[0] = String.valueOf(new Random().nextInt(9000) + 1000);
+
+            if (email.getText().isEmpty()) {
+                info.setStyle("-fx-text-fill: red;");
+                info.setText("Masukkan email dulu!");
+                return;
+            }
+
+            // generate 6 digit OTP
+            generatedCode[0] = String.valueOf((int)(Math.random() * 900000) + 100000);
+
+            // set expire time (1 menit)
+            expireTime[0] = System.currentTimeMillis() + 60000;
+
+            // kirim email
+            EmailService.sendOTP(email.getText(), generatedCode[0]);
+
             info.setStyle("-fx-text-fill: green;");
-            info.setText("Verification code: " + generatedCode[0]);
+            info.setText("Kode dikirim ke email!");
+
+            // disable button + warna abu
+            sendCodeBtn.setDisable(true);
+            sendCodeBtn.setStyle(
+                    "-fx-background-color: #ccc;" +
+                            "-fx-background-radius: 10;" +
+                            "-fx-padding: 10;"
+            );
+
+            // countdown
+            startCountdown(sendCodeBtn, info);
         });
 
         // ===== REGISTER LOGIC =====
@@ -124,11 +153,18 @@ public class RegisterPage {
                 info.setStyle("-fx-text-fill: red;");
                 info.setText("Email dan password harus diisi!");
 
-            } else if (!codeField.getText().equals(generatedCode[0])) {
+            } else if (System.currentTimeMillis() > expireTime[0]) {
                 info.setStyle("-fx-text-fill: red;");
-                info.setText("Kode verifikasi salah!");
+                info.setText("Kode sudah expired!");
+            }
+            else if (!codeField.getText().equals(generatedCode[0])) {
+                info.setStyle("-fx-text-fill: red;");
+                info.setText("Kode salah!");
+            }
+            else {
+                // sukses → hapus kode (1x pakai)
+                generatedCode[0] = "";
 
-            } else {
                 boolean success = DatabaseHelper.registerUser(
                         email.getText(),
                         password.getText()
@@ -186,5 +222,37 @@ public class RegisterPage {
         root.getChildren().add(card);
 
         return root;
+    }
+
+    private void startCountdown(Button btn, Label info) {
+
+        new Thread(() -> {
+            try {
+                for (int i = 60; i >= 0; i--) {
+
+                    int finalI = i;
+
+                    javafx.application.Platform.runLater(() ->
+                            info.setText("Masukkan kode (" + finalI + " detik)")
+                    );
+
+                    Thread.sleep(1000);
+                }
+
+                javafx.application.Platform.runLater(() -> {
+                    btn.setDisable(false);
+                    btn.setStyle(
+                            "-fx-background-color: #4CAF50;" +
+                                    "-fx-text-fill: white;" +
+                                    "-fx-background-radius: 10;" +
+                                    "-fx-padding: 10;"
+                    );
+                    info.setText("Kode expired, kirim ulang.");
+                });
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

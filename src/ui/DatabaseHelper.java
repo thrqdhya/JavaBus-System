@@ -1,6 +1,7 @@
 package ui;
 
 import java.sql.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class DatabaseHelper {
 
@@ -31,7 +32,8 @@ public class DatabaseHelper {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
+            String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+            pstmt.setString(2, hashed);
             pstmt.executeUpdate();
             return true;
 
@@ -42,16 +44,21 @@ public class DatabaseHelper {
 
     // Login user
     public static boolean loginUser(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String sql = "SELECT password FROM users WHERE email = ?";
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
-
             ResultSet rs = pstmt.executeQuery();
-            return rs.next();
+
+            if (rs.next()) {
+                String storedHash = rs.getString("password");
+
+                return BCrypt.checkpw(password, storedHash);
+            }
+
+            return false;
 
         } catch (SQLException e) {
             e.printStackTrace();
