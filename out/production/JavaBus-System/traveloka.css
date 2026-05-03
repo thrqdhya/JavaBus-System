@@ -1,0 +1,212 @@
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    -fx-padding: 20;
+}
+
+.logo {
+    -fx-text-fill: white;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.logout-btn {
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 6 16;
+}
+
+.logout-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.35);
+}
+
+/* ===== TITLE ===== */
+.title {
+    -fx-font-size: 48px;
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+}
+
+/* ===== SEARCH CARD ===== */
+.search-card {
+    -fx-background-color: white;
+    -fx-background-radius: 25;
+    -fx-padding: 18 22;
+    -fx-spacing: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 35, 0, 0, 12);
+}
+
+/* ===== FIELD ===== */
+.field-label {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+}
+
+.combo-box,
+.date-picker,
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.combo-box .text-input {
+    -fx-prompt-text-fill: #9ca3af;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+}
+
+.combo-box .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.combo-box .arrow-button {
+    -fx-opacity: 0;
+}
+
+.combo-box .arrow {
+    -fx-opacity: 0;
+}
+
+.combo-box .text-field {
+    -fx-font-size: 15px;
+}
+
+.combo-box .text-input:focused {
+    -fx-highlight-fill: transparent;
+}
+
+.search-btn {
+    -fx-background-color: #1a73e8;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-font-weight: bold;
+    -fx-padding: 14 35;
+}
+
+.search-btn:hover {
+    -fx-background-color: #1669d6;
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+    -fx-background-color: #e5e7eb;
+    -fx-pref-width: 1;
+    -fx-opacity: 0.5;
+}
+
+/* ===== SEARCH BUTTON ===== */
+.search-btn {
+    -fx-background-color: linear-gradient(to right, #ff7a00, #ff3d00);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25;
+    -fx-padding: 15 35;
+}
+
+.search-btn:hover {
+    -fx-background-color: linear-gradient(to right, #ff8c1a, #ff5722);
+}
+
+/* ===== PASSENGER ===== */
+.passenger-btn {
+    -fx-background-color: #f3f4f6;
+    -fx-background-radius: 10;
+    -fx-padding: 5 10;
+}
+
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.date-picker {
+    -fx-background-color: transparent;
+}
+
+/* ===== DATEPICKER POPUP ===== */
+
+.date-picker-popup {
+    -fx-background-color: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+/* HEADER (bulan & tahun) */
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #1a73e8;
+    -fx-text-fill: white;
+}
+
+/* TEXT bulan */
+.date-picker-popup .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* GRID HARI */
+.date-picker-popup .day-cell {
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+    -fx-text-fill: #374151;
+}
+
+/* HOVER */
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #e8f0fe;
+}
+
+/* HARI INI */
+.date-picker-popup .day-cell.today {
+    -fx-border-color: #1a73e8;
+    -fx-border-radius: 10;
+}
+
+/* SELECTED DATE */
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #1a73e8;
+    -fx-text-fill: white;
+}
+
+.date-picker-popup {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);
+}
+
+.date-picker-popup .button {
+    -fx-background-color: transparent;
+}
+
+.date-picker-popup .button:hover {
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-background-radius: 10;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: #9ca3af;
+}
+
+/* Sembunyikan tanggal di luar bulan aktif */
+.date-picker-popup .day-cell:disabled {
+    -fx-opacity: 0;              /* hilang */
+}
+
+/* biar tidak bisa di-klik juga */
+.date-picker-popup .day-cell:disabled:hover {
+    -fx-background-color: transparent;
+}
