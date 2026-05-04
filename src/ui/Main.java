@@ -14,6 +14,7 @@ public class Main extends Application {
         this.stage = stage;
 
         DatabaseHelper.initializeDatabase();
+        DatabaseHelper.insertTerminals();
 
         showLoginPage();
 

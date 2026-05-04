@@ -7,10 +7,16 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class DatabaseHelper {
 
-    private static final String URL = "jdbc:sqlite:users.db";
+    private static final String URL = "jdbc:sqlite:javabus.db";
 
     public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(URL);
+        Connection conn = DriverManager.getConnection(URL);
+
+        try (Statement stmt = conn.createStatement()) {
+            stmt.execute("PRAGMA foreign_keys = ON;");
+        }
+
+        return conn;
     }
 
     // =========================
@@ -18,7 +24,7 @@ public class DatabaseHelper {
     // =========================
     public static void initializeDatabase() {
 
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
 
             // =========================
@@ -44,7 +50,7 @@ public class DatabaseHelper {
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name TEXT NOT NULL," +
                     "city_id INTEGER," +
-                    "FOREIGN KEY(city_id) REFERENCES cities(id)" +
+                    "FOREIGN KEY (city_id) REFERENCES cities(id)" +
                     ")");
 
             // =========================
@@ -77,7 +83,7 @@ public class DatabaseHelper {
     public static boolean registerUser(String email, String password) {
         String sql = "INSERT INTO users(email, password) VALUES(?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
@@ -97,7 +103,7 @@ public class DatabaseHelper {
     public static boolean loginUser(String email, String password) {
         String sql = "SELECT password FROM users WHERE email = ?";
 
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
@@ -115,4 +121,6 @@ public class DatabaseHelper {
             return false;
         }
     }
+
+    
 }
