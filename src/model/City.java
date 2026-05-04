@@ -1,6 +1,7 @@
 package model;
 
 public class City {
+
     private int id;
     private String name;
 
@@ -14,6 +15,6 @@ public class City {
 
     @Override
     public String toString() {
-        return name; // penting buat dropdown
+        return name;
     }
 }

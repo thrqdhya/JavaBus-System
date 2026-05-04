@@ -97,7 +97,7 @@ public class LoginPage {
                     errorText.setText("Email atau password salah!");
                 } else {
                     errorText.setText("");
-                    main.showDashboard();
+                    main.showDashboardPage();
                 }
             }
         });

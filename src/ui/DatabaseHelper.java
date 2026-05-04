@@ -10,10 +10,12 @@ public class DatabaseHelper {
     private static final String URL = "jdbc:sqlite:javabus.db";
 
     public static Connection connect() throws SQLException {
-        Connection conn = DriverManager.getConnection(URL);
+
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:javabus.db");
 
         try (Statement stmt = conn.createStatement()) {
-            stmt.execute("PRAGMA foreign_keys = ON;");
+            stmt.execute("PRAGMA busy_timeout = 3000;");
+            stmt.execute("PRAGMA journal_mode=WAL;");
         }
 
         return conn;
@@ -57,20 +59,6 @@ public class DatabaseHelper {
             // SEED DATA (ANTI DUPLICATE)
             // =========================
 
-            // Cities
-            stmt.execute("INSERT OR IGNORE INTO cities (name) VALUES " +
-                    "('Istanbul')," +
-                    "('Ankara')," +
-                    "('Izmir')," +
-                    "('Bursa')");
-
-            // Terminals
-            stmt.execute("INSERT OR IGNORE INTO terminals (name, city_id) VALUES " +
-                    "('Esenler Otogar', 1)," +
-                    "('Harem Otogar', 1)," +
-                    "('ASTI Terminal', 2)," +
-                    "('Izmir Bus Terminal', 3)," +
-                    "('Bursa Terminal', 4)");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,5 +110,5 @@ public class DatabaseHelper {
         }
     }
 
-    
+
 }

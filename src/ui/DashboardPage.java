@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.image.*;
 import javafx.scene.Node;
+
 import java.sql.*;
 import java.util.*;
 
@@ -13,6 +14,10 @@ public class DashboardPage {
 
     private Main main;
     private List<String> locations;
+
+    private ComboBox<String> from;
+    private ComboBox<String> to;
+    private DatePicker date;
 
     public DashboardPage(Main main) {
         this.main = main;
@@ -23,11 +28,9 @@ public class DashboardPage {
 
         StackPane root = new StackPane();
 
-        // ===== BACKGROUND =====
         ImageView bg = new ImageView(
                 new Image(getClass().getResource("/bg.png").toExternalForm())
         );
-
         bg.setFitWidth(1600);
         bg.setPreserveRatio(true);
 
@@ -36,7 +39,6 @@ public class DashboardPage {
                 "-fx-background-color: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3));"
         );
 
-        // ===== NAVBAR =====
         Label logo = new Label("JavaBus");
         logo.getStyleClass().add("logo");
 
@@ -50,23 +52,21 @@ public class DashboardPage {
         HBox navbar = new HBox(logo, spacer, logout);
         navbar.getStyleClass().add("navbar");
 
-        // ===== TITLE =====
         Label title = new Label("Find Your Bus Journey");
         title.getStyleClass().add("title");
 
-        // ===== INPUT =====
-        ComboBox<String> from = createCombo();
-        ComboBox<String> to = createCombo();
+        // 🔥 INPUT
+        from = createCombo();
+        to = createCombo();
+
         from.setPromptText("Choose departure city");
         to.setPromptText("Choose destination city");
 
-        DatePicker date = new DatePicker();
+        date = new DatePicker();
         date.setPromptText("Select date");
-        date.setShowWeekNumbers(false);
 
         HBox passenger = createPassenger();
 
-        // ===== SEARCH CARD =====
         HBox card = new HBox(
                 modernField("From", from, "/icons/bus.png"),
                 divider(),
@@ -78,18 +78,12 @@ public class DashboardPage {
                 searchButton()
         );
 
-        card.setAlignment(Pos.CENTER);
-
         card.getStyleClass().add("search-card");
-        card.setAlignment(Pos.CENTER_LEFT);
 
         VBox wrapper = new VBox(card);
         wrapper.setAlignment(Pos.CENTER);
-        wrapper.setPadding(new Insets(0, 120, 0, 120)); // 🔥 kasih margin kiri kanan
+        wrapper.setPadding(new Insets(0, 120, 0, 120));
         wrapper.setTranslateY(60);
-
-        card.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(card, Priority.ALWAYS);
 
         VBox content = new VBox(30, navbar, title, wrapper);
         content.setPadding(new Insets(100, 80, 0, 80));
@@ -100,6 +94,64 @@ public class DashboardPage {
         scene.getStylesheets().add(getClass().getResource("/traveloka.css").toExternalForm());
 
         return scene;
+    }
+
+    // =========================
+    private Button searchButton() {
+
+        Button btn = new Button("Search");
+        btn.getStyleClass().add("search-btn");
+
+        btn.setPrefHeight(55);
+        btn.setMinWidth(140);
+
+        btn.setOnAction(e -> handleSearch());
+
+        return btn;
+    }
+
+    // =========================
+    private void handleSearch() {
+
+        String fromCity = from.getValue();
+        String toCity = to.getValue();
+        String selectedDate = date.getValue() != null ? date.getValue().toString() : null;
+
+        if (fromCity == null || toCity == null || selectedDate == null) {
+            System.out.println("Please fill all fields!");
+            return;
+        }
+
+        int fromId = getCityId(fromCity);
+        int toId = getCityId(toCity);
+
+        if (fromId == -1 || toId == -1) {
+            System.out.println("City not found!");
+            return;
+        }
+
+        // 🔥 PINDAH HALAMAN (INI YANG PENTING)
+        main.showBusListPage(fromId, toId, fromCity, toCity, selectedDate);
+    }
+
+    // =========================
+    private int getCityId(String name) {
+
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement ps = conn.prepareStatement("SELECT id FROM cities WHERE name = ?")) {
+
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
     // =========================
@@ -128,18 +180,6 @@ public class DashboardPage {
     }
 
     // =========================
-    private VBox field(String labelText, Node input) {
-
-        Label label = new Label(labelText);
-        label.getStyleClass().add("field-label");
-
-        VBox box = new VBox(5, label, input);
-        box.setMinWidth(180);
-
-
-        return box;
-    }
-
     private HBox modernField(String labelText, Node input, String iconPath) {
 
         ImageView icon = new ImageView(
@@ -152,17 +192,8 @@ public class DashboardPage {
         label.getStyleClass().add("field-label");
 
         VBox text = new VBox(8, label, input);
-        text.setPadding(new Insets(2, 0, 2, 0));
 
-        HBox box = new HBox(14, icon, text);
-        box.setPadding(new Insets(5, 10, 5, 10));
-        box.setAlignment(Pos.BOTTOM_LEFT);
-        box.setMinWidth(180);
-        box.setPadding(new Insets(8, 15, 8, 15));
-
-        text.setPrefWidth(200);
-
-        return box;
+        return new HBox(14, icon, text);
     }
 
     // =========================
@@ -170,20 +201,6 @@ public class DashboardPage {
         Region d = new Region();
         d.getStyleClass().add("divider");
         return d;
-    }
-
-    // =========================
-    private Button searchButton() {
-
-        Button btn = new Button("Search");
-
-        btn.getStyleClass().add("search-btn");
-
-        // 🔥 ukuran tombol biar kelihatan premium
-        btn.setPrefHeight(55);
-        btn.setMinWidth(140);
-
-        return btn;
     }
 
     // =========================

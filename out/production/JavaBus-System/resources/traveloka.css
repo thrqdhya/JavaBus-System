@@ -26,7 +26,7 @@
 
 /* ===== TITLE ===== */
 .title {
-    -fx-font-size: 48px;
+    -fx-font-size: 42px;
     -fx-text-fill: white;
     -fx-font-weight: 800;
 }
@@ -37,71 +37,33 @@
     -fx-background-radius: 25;
     -fx-padding: 18 22;
     -fx-spacing: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 35, 0, 0, 12);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 30, 0, 0, 10);
 }
 
 /* ===== FIELD ===== */
 .field-label {
     -fx-text-fill: #6b7280;
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
     -fx-font-weight: 600;
 }
 
+/* ===== INPUT CLEAN ===== */
 .combo-box,
 .date-picker,
 .text-field {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-background-insets: 0;
     -fx-padding: 0;
 }
 
-.combo-box .text-input {
-    -fx-prompt-text-fill: #9ca3af;
-}
-
-.combo-box .list-cell {
-    -fx-background-color: transparent;
-}
-
 .combo-box .text-field {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
-.combo-box .arrow-button {
-    -fx-opacity: 0;
-}
-
-.combo-box .arrow {
-    -fx-opacity: 0;
-}
-
-.combo-box .text-field {
     -fx-font-size: 15px;
 }
 
-.combo-box .text-input:focused {
-    -fx-highlight-fill: transparent;
-}
-
-.search-btn {
-    -fx-background-color: #1a73e8;
-    -fx-text-fill: white;
-    -fx-background-radius: 25;
-    -fx-font-weight: bold;
-    -fx-padding: 14 35;
-}
-
-.search-btn:hover {
-    -fx-background-color: #1669d6;
-}
-
-/* ===== DIVIDER ===== */
-.divider {
-    -fx-background-color: #e5e7eb;
-    -fx-pref-width: 1;
-    -fx-opacity: 0.5;
+.combo-box .arrow-button,
+.combo-box .arrow {
+    -fx-opacity: 0;
 }
 
 /* ===== SEARCH BUTTON ===== */
@@ -111,11 +73,18 @@
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-background-radius: 25;
-    -fx-padding: 15 35;
+    -fx-padding: 14 35;
 }
 
 .search-btn:hover {
     -fx-background-color: linear-gradient(to right, #ff8c1a, #ff5722);
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+    -fx-background-color: #e5e7eb;
+    -fx-pref-width: 1;
+    -fx-opacity: 0.5;
 }
 
 /* ===== PASSENGER ===== */
@@ -125,88 +94,175 @@
     -fx-padding: 5 10;
 }
 
-.date-picker .text-field {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 0;
+.passenger-btn:hover {
+    -fx-background-color: #e5e7eb;
 }
 
-.date-picker .arrow-button {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
+/* ===== DATE PICKER ===== */
 .date-picker {
     -fx-background-color: transparent;
 }
 
-/* ===== DATEPICKER POPUP ===== */
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
 
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* ===== DATE PICKER POPUP ===== */
 .date-picker-popup {
     -fx-background-color: white;
-    -fx-border-radius: 15;
     -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);
 }
 
-/* HEADER (bulan & tahun) */
+/* HEADER */
 .date-picker-popup .month-year-pane {
     -fx-background-color: #1a73e8;
-    -fx-text-fill: white;
 }
 
-/* TEXT bulan */
 .date-picker-popup .label {
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 
-/* GRID HARI */
+/* DAY CELL */
 .date-picker-popup .day-cell {
     -fx-background-radius: 10;
     -fx-padding: 8;
-    -fx-text-fill: #374151;
 }
 
-/* HOVER */
 .date-picker-popup .day-cell:hover {
     -fx-background-color: #e8f0fe;
 }
 
-/* HARI INI */
 .date-picker-popup .day-cell.today {
     -fx-border-color: #1a73e8;
     -fx-border-radius: 10;
 }
 
-/* SELECTED DATE */
 .date-picker-popup .day-cell:selected {
     -fx-background-color: #1a73e8;
     -fx-text-fill: white;
 }
 
-.date-picker-popup {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);
-}
-
-.date-picker-popup .button {
-    -fx-background-color: transparent;
-}
-
-.date-picker-popup .button:hover {
-    -fx-background-color: rgba(255,255,255,0.2);
-    -fx-background-radius: 10;
-}
-
-.date-picker-popup .week-number-cell {
-    -fx-text-fill: #9ca3af;
-}
-
-/* Sembunyikan tanggal di luar bulan aktif */
+/* HIDE OTHER MONTH DAYS */
 .date-picker-popup .day-cell:disabled {
-    -fx-opacity: 0;              /* hilang */
+    -fx-opacity: 0;
 }
 
-/* biar tidak bisa di-klik juga */
-.date-picker-popup .day-cell:disabled:hover {
+/* ========================= */
+/* 🔥 NEW: BUS LIST UI STYLE */
+/* ========================= */
+
+.bus-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 18;
+    -fx-spacing: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+.bus-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);
+}
+
+.bus-name {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.bus-route {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 13px;
+}
+
+.time-row {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* PRICE */
+.price {
+    -fx-text-fill: #ff5a1f;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* BOOK BUTTON */
+.book-btn {
+    -fx-background-color: #ff5a1f;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+}
+
+.book-btn:hover {
+    -fx-background-color: #e14b14;
+}
+
+/* BACK BUTTON */
+.back-btn {
     -fx-background-color: transparent;
+    -fx-text-fill: #1a73e8;
+    -fx-font-size: 14px;
+}
+
+.back-btn:hover {
+    -fx-underline: true;
+}
+
+/* SCROLL CLEAN */
+.scroll-clean {
+    -fx-background-color: transparent;
+}
+
+/* ===== SEAT ===== */
+.seat {
+    -fx-background-color: #e5e7eb;
+    -fx-background-radius: 8;
+    -fx-text-fill: #111;
+    -fx-font-weight: bold;
+    -fx-pref-width: 55;
+    -fx-pref-height: 45;
+}
+
+.seat:hover {
+    -fx-background-color: #c7d2fe;
+}
+
+.seat-selected {
+    -fx-background-color: #22c55e;
+    -fx-text-fill: white;
+}
+
+.seat-booked {
+    -fx-background-color: #9ca3af;
+    -fx-text-fill: white;
+}
+
+.aisle {
+    -fx-min-width: 40;
+}
+
+.screen-bar {
+    -fx-background-color: white;
+    -fx-padding: 10;
+    -fx-background-radius: 10;
+    -fx-alignment: center;
+}
+
+.confirm-btn {
+    -fx-background-color: #ff5a1f;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 12 30;
+}
+
+.confirm-btn:hover {
+    -fx-background-color: #e14b14;
 }

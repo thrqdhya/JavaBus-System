@@ -69,7 +69,7 @@ public class App {
             switch (option) {
                 case 1 -> manageBuses(scanner, busService);
                 case 2 -> managePassengers(scanner, passengerService);
-                case 3 -> manageTickets(scanner, ticketService);
+                case 3 -> manageTickets(scanner, ticketService, busService, passengerService);
                 case 0 -> {
                     System.out.println("Exiting...");
                     return;
@@ -122,8 +122,8 @@ public class App {
         }
     }
 
-    // === PASSENGER MENU ===
     private static void managePassengers(Scanner scanner, PassengerService passengerService) {
+
         while (true) {
             System.out.println("\n--- PASSENGER MENU ---");
             System.out.println("1. Add Passenger");
@@ -143,33 +143,56 @@ public class App {
 
             switch (opt) {
                 case 1 -> {
-                    System.out.print("Passenger ID: "); int id = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Name: "); String name = scanner.nextLine();
-                    System.out.print("Phone: "); String phone = scanner.nextLine();
+                    System.out.print("Passenger ID: ");
+                    int id = Integer.parseInt(scanner.nextLine());
+
+                    System.out.print("Name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("Phone: ");
+                    String phone = scanner.nextLine();
+
                     passengerService.addPassenger(new Passenger(id, name, phone));
                 }
+
                 case 2 -> passengerService.printAllPassengers();
+
                 case 3 -> {
-                    System.out.print("Passenger ID to update: "); int id = Integer.parseInt(scanner.nextLine());
-                    System.out.print("New Name: "); String newName = scanner.nextLine();
+                    System.out.print("Passenger ID to update: ");
+                    int id = Integer.parseInt(scanner.nextLine());
+
+                    System.out.print("New Name: ");
+                    String newName = scanner.nextLine();
+
                     passengerService.updatePassenger(id, newName);
                 }
+
                 case 4 -> {
-                    System.out.print("Passenger ID to remove: "); int id = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Passenger ID to remove: ");
+                    int id = Integer.parseInt(scanner.nextLine());
+
                     passengerService.removePassenger(id);
                 }
-                case 0 -> { return; }
+
+                case 0 -> {
+                    return;
+                }
+
                 default -> System.out.println("Invalid option!");
             }
         }
     }
 
-    // === TICKET MENU ===
-    private static void manageTickets(Scanner scanner, TicketService ticketService) {
+    // === BOOKING MENU ===
+    private static void manageTickets(Scanner scanner,
+                                      TicketService ticketService,
+                                      BusService busService,
+                                      PassengerService passengerService) {
+
         while (true) {
-            System.out.println("\n--- TICKET MENU ---");
-            System.out.println("1. Buy Ticket");
-            System.out.println("2. List Tickets");
+            System.out.println("\n--- BOOKING MENU ---");
+            System.out.println("1. Book Ticket");
+            System.out.println("2. View All Tickets");
             System.out.println("3. Update Ticket Seat");
             System.out.println("4. Cancel Ticket");
             System.out.println("0. Back");
@@ -184,29 +207,79 @@ public class App {
             }
 
             switch (opt) {
+
+                // 🔥 1. BOOK TICKET (FULL VERSION)
                 case 1 -> {
-                    System.out.print("Ticket ID: "); int ticketId = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Bus ID: "); int busId = Integer.parseInt(scanner.nextLine());
+                    System.out.println("\n=== BOOK TICKET ===");
 
-                    // 🔥 Tambahan UX (biar gak tebak ID)
+                    System.out.print("Ticket ID: ");
+                    int ticketId = Integer.parseInt(scanner.nextLine());
+
+                    // 📌 Show buses
                     System.out.println("\nAvailable Buses:");
-                    ticketService.printAllTickets(); // optional, kalau mau ubah nanti
+                    busService.printAllBuses();
 
-                    System.out.print("Passenger ID: "); int passengerId = Integer.parseInt(scanner.nextLine());
-                    System.out.print("Seat: "); String seat = scanner.nextLine();
-                    ticketService.buyTicket(ticketId, busId, passengerId, seat);
+                    System.out.print("Select Bus ID: ");
+                    int busId = Integer.parseInt(scanner.nextLine());
+
+                    // 📌 Show passengers
+                    System.out.println("\nAvailable Passengers:");
+                    passengerService.printAllPassengers();
+
+                    System.out.print("Select Passenger ID: ");
+                    int passengerId = Integer.parseInt(scanner.nextLine());
+
+                    // 📌 Booking details
+                    System.out.print("From City: ");
+                    String from = scanner.nextLine();
+
+                    System.out.print("To City: ");
+                    String to = scanner.nextLine();
+
+                    System.out.print("Departure Date (YYYY-MM-DD): ");
+                    String date = scanner.nextLine();
+
+                    System.out.print("Seat (e.g. A1): ");
+                    String seat = scanner.nextLine();
+
+                    // 🚀 CALL SERVICE (VERSI UPGRADE)
+                    ticketService.bookTicket(
+                            ticketId,
+                            busId,
+                            passengerId,
+                            from,
+                            to,
+                            date,
+                            seat
+                    );
                 }
+
+                // 📄 2. VIEW ALL
                 case 2 -> ticketService.printAllTickets();
+
+                // ✏️ 3. UPDATE SEAT
                 case 3 -> {
-                    System.out.print("Ticket ID to update: "); int ticketId = Integer.parseInt(scanner.nextLine());
-                    System.out.print("New Seat: "); String newSeat = scanner.nextLine();
+                    System.out.print("Ticket ID to update: ");
+                    int ticketId = Integer.parseInt(scanner.nextLine());
+
+                    System.out.print("New Seat: ");
+                    String newSeat = scanner.nextLine();
+
                     ticketService.updateTicketSeat(ticketId, newSeat);
                 }
+
+                // ❌ 4. CANCEL
                 case 4 -> {
-                    System.out.print("Ticket ID to cancel: "); int ticketId = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Ticket ID to cancel: ");
+                    int ticketId = Integer.parseInt(scanner.nextLine());
+
                     ticketService.cancelTicket(ticketId);
                 }
-                case 0 -> { return; }
+
+                case 0 -> {
+                    return;
+                }
+
                 default -> System.out.println("Invalid option!");
             }
         }
