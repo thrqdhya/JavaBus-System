@@ -3,6 +3,8 @@ package ui;
 import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import model.Bus;
 import java.util.Set;
@@ -21,17 +23,18 @@ public class PassengerPage {
 
     public StackPane getView() {
 
+        // ===== TITLE =====
         Label title = new Label("Passenger Details");
-        title.setStyle("-fx-font-size: 28px; -fx-text-fill: #111827; -fx-font-weight: bold;");
+        title.getStyleClass().add("title");
 
-        // 🔥 tampilkan info booking
+        // ===== INFO =====
         Label routeInfo = new Label("Route: " + bus.getMarka());
         Label seatInfo = new Label("Seats: " + seats);
         Label priceInfo = new Label("Price per seat: ₺ " + bus.getPrice());
 
-        routeInfo.setStyle("-fx-text-fill: #6b7280;");
-        seatInfo.setStyle("-fx-text-fill: #6b7280;");
-        priceInfo.setStyle("-fx-text-fill: #6b7280;");
+        routeInfo.setStyle("-fx-text-fill: white;");
+        seatInfo.setStyle("-fx-text-fill: white;");
+        priceInfo.setStyle("-fx-text-fill: white;");
 
         // ===== FORM =====
         TextField name = new TextField();
@@ -47,36 +50,35 @@ public class PassengerPage {
         idCard.setPromptText("ID / IKAMET");
 
         VBox form = new VBox(15, name, email, phone, idCard);
+        form.setPadding(new Insets(25));
+        form.setMaxWidth(350);
 
-        form.setPadding(new Insets(20));
         form.setStyle("""
-            -fx-background-color: white;
-            -fx-background-radius: 20;
-            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);
-        """);
+        -fx-background-color: white;
+        -fx-background-radius: 20;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 30, 0, 0, 10);
+    """);
 
-        // ===== BUTTON =====
+        // ===== BUTTON (BIRU) =====
         Button next = new Button("Continue to Payment");
         next.setStyle("""
-            -fx-background-color: linear-gradient(to right, #ff7a00, #ff3d00);
-            -fx-text-fill: white;
-            -fx-font-size: 14px;
-            -fx-background-radius: 20;
-            -fx-padding: 10 25;
-        """);
+        -fx-background-color: linear-gradient(to right, #1a73e8, #0b57d0);
+        -fx-text-fill: white;
+        -fx-font-size: 14px;
+        -fx-background-radius: 25;
+        -fx-padding: 12 30;
+    """);
 
         next.setOnAction(e -> {
-
             if (name.getText().isEmpty()) {
                 System.out.println("Name required!");
                 return;
             }
 
-            // 🔥 kirim semua data ke payment
             main.showPaymentPage(bus, seats, name.getText());
         });
 
-        VBox container = new VBox(20,
+        VBox content = new VBox(20,
                 title,
                 routeInfo,
                 seatInfo,
@@ -85,12 +87,23 @@ public class PassengerPage {
                 next
         );
 
-        container.setAlignment(Pos.CENTER);
-        container.setPadding(new Insets(40));
-        container.setMaxWidth(420);
+        content.setAlignment(Pos.CENTER);
 
-        StackPane root = new StackPane(container);
-        root.setStyle("-fx-background-color: #f3f4f6;");
+        // ===== BACKGROUND (SAMA KAYAK DASHBOARD) =====
+        StackPane root = new StackPane();
+
+        ImageView bg = new ImageView(
+                new Image(getClass().getResource("/bg.png").toExternalForm())
+        );
+        bg.setFitWidth(1600);
+        bg.setPreserveRatio(true);
+
+        Region overlay = new Region();
+        overlay.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3));"
+        );
+
+        root.getChildren().addAll(bg, overlay, content);
 
         return root;
     }

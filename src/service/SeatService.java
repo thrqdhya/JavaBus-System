@@ -76,8 +76,6 @@ public class SeatService {
 
                 rowLetter++;
             }
-
-            ps.executeBatch();
             conn.commit();
 
             System.out.println("Seats generated (2-2) for bus ID: " + busId);
@@ -125,39 +123,32 @@ public class SeatService {
             throw new IllegalArgumentException("Seat list cannot be empty");
         }
 
-        final String sql = "UPDATE seats SET is_booked = 1 WHERE id = ? AND is_booked = 0";
+        String sql = "UPDATE seats SET is_booked = 1 WHERE id = ? AND is_booked = 0";
 
-        try (Connection conn = DatabaseHelper.connect()) {
+        try (Connection conn = DatabaseHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            conn.setAutoCommit(false); // 🔥 start transaction
+            conn.setAutoCommit(false);
 
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            int success = 0;
 
-                for (int id : seatIds) {
-                    ps.setInt(1, id);
-                    ps.addBatch();
-                }
+            for (int id : seatIds) {
+                ps.setInt(1, id);
 
-                int[] result = ps.executeBatch();
-
-                // cek kalau ada yang gagal (sudah booked)
-                int success = Arrays.stream(result).sum();
-
-                if (success != seatIds.size()) {
-                    conn.rollback(); // 🔥 WAJIB
-                    throw new RuntimeException("Some seats already booked. Please refresh.");
-                }
-
-                conn.commit(); // 🔥 commit kalau sukses
-
-                System.out.println("Seats booked successfully: " + seatIds);
-
-            } catch (Exception e) {
-                conn.rollback(); // 🔥 WAJIB (ini yang kurang tadi)
-                throw e;
+                int result = ps.executeUpdate(); // ✅ bukan batch
+                success += result;
             }
 
-        } catch (SQLException e) {
+            if (success != seatIds.size()) {
+                conn.rollback();
+                throw new RuntimeException("Some seats already booked!");
+            }
+
+            conn.commit();
+
+            System.out.println("Seats booked: " + seatIds);
+
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Booking failed", e);
         }

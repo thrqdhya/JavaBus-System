@@ -111,7 +111,15 @@ public class Main extends Application {
 
     public void showSuccessPage(int busId, String name, Set<String> seats, int total) {
         SuccessPage page = new SuccessPage(this, busId, name, seats, total);
-        stage.setScene(new Scene(page.getView(), 1000, 700));
+
+        Scene scene = new Scene(page.getView(), 1000, 700);
+
+        // 🔥 TAMBAHIN INI
+        scene.getStylesheets().add(
+                getClass().getResource("/traveloka.css").toExternalForm()
+        );
+
+        stage.setScene(scene);
     }
 
     // =========================

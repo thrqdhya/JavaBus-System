@@ -85,7 +85,6 @@ public class SeatRepository {
                 ps.addBatch();
             }
 
-            ps.executeBatch();
 
         } catch (Exception e) {
             e.printStackTrace();

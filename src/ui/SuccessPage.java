@@ -27,69 +27,96 @@ public class SuccessPage {
 
     public StackPane getView() {
 
-        // ===== BACKGROUND =====
-        StackPane root = new StackPane();
-        root.setStyle("-fx-background-color: #f3f4f6;");
-
         // ===== CARD =====
-        VBox ticket = new VBox(20);
-        ticket.setPadding(new Insets(25));
-        ticket.setMaxWidth(500);
-
-        ticket.setStyle("""
-            -fx-background-color: white;
-            -fx-background-radius: 20;
-            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 25, 0, 0, 10);
-        """);
+        VBox ticket = new VBox();
+        ticket.getStyleClass().add("ticket-card");
+        ticket.setMaxWidth(450);
 
         // ===== HEADER =====
+        VBox header = new VBox(5);
+        header.getStyleClass().add("ticket-header");
+
         Label title = new Label("E-Ticket");
-        title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
+        title.getStyleClass().add("ticket-title");
 
         Label bookingId = new Label("Booking ID: " + generateBookingId());
-        bookingId.setStyle("-fx-text-fill: #6b7280;");
+        bookingId.getStyleClass().add("ticket-id");
 
-        // ===== ROUTE =====
-        Label route = new Label("Bartin → Adana"); // nanti bisa dari DB
-        route.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        header.getChildren().addAll(title, bookingId);
 
-        Label time = new Label("Departure: 08:00   Arrival: 18:00");
-        time.setStyle("-fx-text-fill: #6b7280;");
+        // ===== BODY =====
+        VBox body = new VBox(15);
+        body.getStyleClass().add("ticket-body");
 
-        // ===== PASSENGER =====
-        Label passenger = new Label("Passenger: " + name);
-        Label seatInfo = new Label("Seats: " + seats);
+        Label route = new Label("Bartin → Adana");
+        route.getStyleClass().add("ticket-route");
 
-        // ===== PRICE =====
-        Label totalLabel = new Label("Total Paid: ₺ " + total);
-        totalLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #ff5a1f; -fx-font-weight: bold;");
+        Label time = new Label("08:00 → 18:00");
+        time.getStyleClass().add("ticket-time");
 
-        // ===== QR / CODE SIMULASI =====
-        Label qr = new Label("█ ▓ ░ █ ▓ ░ █");
-        qr.setStyle("-fx-font-size: 24px;");
+        VBox passengerBox = new VBox(5);
+        Label pLabel = new Label("PASSENGER");
+        pLabel.getStyleClass().add("ticket-label");
+        Label pValue = new Label(name);
+        pValue.getStyleClass().add("ticket-value");
+        passengerBox.getChildren().addAll(pLabel, pValue);
 
-        // ===== BUTTON =====
+        VBox seatBox = new VBox(5);
+        Label sLabel = new Label("SEAT");
+        sLabel.getStyleClass().add("ticket-label");
+        Label sValue = new Label(String.join(", ", seats));
+        sValue.getStyleClass().add("ticket-value");
+        seatBox.getChildren().addAll(sLabel, sValue);
+
+        Label totalLabel = new Label("₺ " + total);
+        totalLabel.getStyleClass().add("ticket-price");
+
+        Label qr = new Label("▇ ▓ ▇ ░ ▇ ▓");
+        qr.getStyleClass().add("ticket-qr");
+
         Button done = new Button("Back to Home");
-        done.setStyle("-fx-background-color: #ff5a1f; -fx-text-fill: white;");
+        done.getStyleClass().add("ticket-btn");
         done.setOnAction(e -> main.showDashboardPage());
 
-        // ===== LAYOUT =====
-        ticket.getChildren().addAll(
-                title,
-                bookingId,
-                new Separator(),
+        Separator divider1 = new Separator();
+        divider1.getStyleClass().add("ticket-divider");
+
+        Separator divider2 = new Separator();
+        divider2.getStyleClass().add("ticket-divider");
+
+        body.getChildren().addAll(
                 route,
                 time,
-                new Separator(),
-                passenger,
-                seatInfo,
-                new Separator(),
+                divider1,
+                passengerBox,
+                seatBox,
+                divider2,
                 totalLabel,
                 qr,
                 done
         );
 
-        root.getChildren().add(ticket);
+        ticket.getChildren().addAll(header, body);
+
+        // ===== BACKGROUND =====
+        StackPane root = new StackPane();
+
+        ImageView bg = new ImageView(
+                new Image(getClass().getResource("/bg.png").toExternalForm())
+        );
+        bg.setFitWidth(1600);
+        bg.setPreserveRatio(true);
+
+        Region overlay = new Region();
+        overlay.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3));"
+        );
+
+        // 🔥 INI YANG KEMARIN ERROR → sekarang bener
+        StackPane wrapper = new StackPane(ticket);
+        wrapper.setAlignment(Pos.CENTER);
+
+        root.getChildren().addAll(bg, overlay, wrapper);
 
         return root;
     }

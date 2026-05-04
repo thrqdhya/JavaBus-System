@@ -266,3 +266,94 @@
 .confirm-btn:hover {
     -fx-background-color: #e14b14;
 }
+
+/* ========================= */
+/* 🎟️ TICKET UI (NEW) */
+/* ========================= */
+
+.ticket-card {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 40, 0, 0, 15);
+}
+
+/* HEADER ORANGE */
+.ticket-header {
+    -fx-background-color: linear-gradient(to right, #1a73e8, #0b57d0);
+    -fx-background-radius: 20 20 0 0;
+    -fx-padding: 15 20;
+}
+
+.ticket-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.ticket-id {
+    -fx-text-fill: rgba(255,255,255,0.8);
+}
+
+/* BODY */
+.ticket-body {
+    -fx-padding: 20;
+    -fx-spacing: 15;
+}
+
+/* ROUTE */
+.ticket-route {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.ticket-time {
+    -fx-text-fill: #6b7280;
+}
+
+/* DIVIDER DASH (sobekan ticket) */
+.ticket-divider {
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+    -fx-border-style: dashed;
+    -fx-border-width: 1;
+}
+
+/* PASSENGER */
+.ticket-label {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+}
+
+.ticket-value {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* PRICE */
+.ticket-price {
+    -fx-text-fill: #ff5a1f;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* QR BOX */
+.ticket-qr {
+    -fx-background-color: #f3f4f6;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-alignment: center;
+    -fx-font-family: monospace;
+}
+
+/* BUTTON */
+.ticket-btn {
+    -fx-background-color: #1a73e8;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 12 25;
+    -fx-font-weight: bold;
+}
+
+.ticket-btn:hover {
+    -fx-background-color: #0b57d0;
+}
