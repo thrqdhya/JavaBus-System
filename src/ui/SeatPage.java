@@ -34,6 +34,12 @@ public class SeatPage {
 
     public StackPane getView() {
 
+        // 🔥 generate dulu
+        seatService.generateSeatsIfNotExists(busId, bus.getKoltukSayisi());
+
+        // 🔥 ambil data SEKALI aja
+        List<SeatRepository.SeatRow> seats = seatService.getSeats(busId);
+
         // ===== BACKGROUND =====
         ImageView bg = new ImageView(
                 new Image(getClass().getResource("/bg.png").toExternalForm())
@@ -58,8 +64,6 @@ public class SeatPage {
         grid.setHgap(15);
         grid.setVgap(15);
         grid.setAlignment(Pos.CENTER);
-
-        List<SeatRepository.SeatRow> seats = seatService.getSeats(busId);
 
         Map<Character, List<SeatRepository.SeatRow>> rows = new TreeMap<>();
 
