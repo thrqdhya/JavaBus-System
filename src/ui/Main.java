@@ -109,8 +109,8 @@ public class Main extends Application {
         stage.setScene(scene);
     }
 
-    public void showSuccessPage(int busId, String name, Set<String> seats, int total) {
-        SuccessPage page = new SuccessPage(this, busId, name, seats, total);
+    public void showSuccessPage(Bus bus, String name, Set<String> seats, int total) {
+    SuccessPage page = new SuccessPage(this, bus, name, seats, total);
 
         Scene scene = new Scene(page.getView(), 1000, 700);
 

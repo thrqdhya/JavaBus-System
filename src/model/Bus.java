@@ -6,8 +6,8 @@ public class Bus {
     private String marka;
     private int koltukSayisi;
 
-    private int fromCityId;
-    private int toCityId;
+    private String fromCityId;
+    private String toCityId;
 
     private String departureDate;
     private String departureTime;

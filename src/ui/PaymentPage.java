@@ -11,6 +11,8 @@ import service.BookingService;
 
 import java.util.Set;
 
+import javax.swing.plaf.synth.Region;
+
 public class PaymentPage {
 
     private Main main;
@@ -93,8 +95,12 @@ public class PaymentPage {
                     totalPrice
             );
 
-            main.showSuccessPage(bus.getId(), name, seats, totalPrice);
-        });
+            main.showSuccessPage(
+    bus,
+    name,
+    seats,
+    totalPrice
+);
 
         // ===== CARD =====
         VBox cardBox = new VBox(15,

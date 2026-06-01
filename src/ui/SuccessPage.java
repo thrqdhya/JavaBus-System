@@ -9,17 +9,22 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.swing.plaf.synth.Region;
+import javax.swing.text.html.ImageView;
+
+import model.Bus;
+
 public class SuccessPage {
 
     private Main main;
-    private int busId;
+    private Bus bus;
     private String name;
     private Set<String> seats;
     private int total;
 
-    public SuccessPage(Main main, int busId, String name, Set<String> seats, int total) {
+    public SuccessPage(Main main, Bus bus, String name, Set<String> seats, int total) {
         this.main = main;
-        this.busId = busId;
+        this.bus = bus;
         this.name = name;
         this.seats = seats;
         this.total = total;
@@ -48,10 +53,14 @@ public class SuccessPage {
         VBox body = new VBox(15);
         body.getStyleClass().add("ticket-body");
 
-        Label route = new Label("Bartin → Adana");
+        Label route = new Label(
+        bus.getFromCityId() + " → " + bus.getToCityId()
+);
         route.getStyleClass().add("ticket-route");
 
-        Label time = new Label("08:00 → 18:00");
+        Label time = new Label(
+        bus.getDepartureTime() + " → " + bus.getArrivalTime()
+);
         time.getStyleClass().add("ticket-time");
 
         VBox passengerBox = new VBox(5);
